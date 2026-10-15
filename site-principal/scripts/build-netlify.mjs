@@ -1,4 +1,5 @@
 import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
 import { build } from 'esbuild';
 
 const out = new URL('../dist-netlify/', import.meta.url);
@@ -15,4 +16,4 @@ const app = (await readFile(appPath, 'utf8')).replace(
   .replaceAll('/signout-with-chatgpt?return_to=%2F', '/acesso.html?action=logout')
   .replaceAll('Entrar com ChatGPT →', 'Entrar na minha conta →');
 await writeFile(appPath, app);
-await build({ entryPoints: [new URL('../src/identity-client.mjs', import.meta.url).pathname], outfile: new URL('identity-client.js', out).pathname, bundle: true, minify: true, format: 'esm', platform: 'browser', target: ['es2020'] });
+await build({ entryPoints: [fileURLToPath(new URL('../src/identity-client.mjs', import.meta.url))], outfile: fileURLToPath(new URL('identity-client.js', out)), bundle: true, minify: true, format: 'esm', platform: 'browser', target: ['es2020'] });

@@ -34,6 +34,6 @@ CREATE TABLE audit (
 
 CREATE TABLE rate_limits (
   key TEXT PRIMARY KEY,
-  window BIGINT NOT NULL,
+  "window" BIGINT NOT NULL,
   count INTEGER NOT NULL
 );

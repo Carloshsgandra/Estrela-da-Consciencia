@@ -88,8 +88,8 @@ function checkSlot(c: any, appointment: any, duration: number) {
 
 async function rate(actor: string) {
   const window = Math.floor(Date.now() / 600000);
-  const [row] = await sql`INSERT INTO rate_limits (key,window,count) VALUES (${actor},${window},1)
-    ON CONFLICT (key) DO UPDATE SET count=CASE WHEN rate_limits.window=EXCLUDED.window THEN rate_limits.count+1 ELSE 1 END,window=EXCLUDED.window RETURNING count`;
+  const [row] = await sql`INSERT INTO rate_limits (key,"window",count) VALUES (${actor},${window},1)
+    ON CONFLICT (key) DO UPDATE SET count=CASE WHEN rate_limits."window"=EXCLUDED."window" THEN rate_limits.count+1 ELSE 1 END,"window"=EXCLUDED."window" RETURNING count`;
   if (Number(row.count) > 40) fail('Muitas alterações em pouco tempo. Aguarde alguns minutos.', 429);
 }
 
